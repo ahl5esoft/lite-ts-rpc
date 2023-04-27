@@ -11,15 +11,15 @@ export class RpcEnumLoadHandler extends EnumLoadHandlerBase {
     }
 
     public async handle(ctx: EnumLoadHandlerContext) {
-        const res = await this.m_Rpc.call<EnumItem[]>({
+        const res = await this.m_Rpc.call<{ [app: string]: EnumItem[]; }>({
             body: {
                 areaNo: ctx.areaNo,
-                name: ctx.enum.name,
+                names: [ctx.enum.name]
             },
             isThrow: true,
             route: `/${ctx.app}/find-enum-items`,
         });
-        ctx.res = res.data.reduce((memo, r) => {
+        ctx.res = res.data[ctx.enum.name].reduce((memo, r) => {
             memo[r.value] = this.m_BuildItemFunc(r, ctx.enum.name);
             return memo;
         }, {});

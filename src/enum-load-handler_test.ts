@@ -28,15 +28,17 @@ describe('src/enum-load-handler.ts', () => {
                 r => r.call({
                     body: {
                         areaNo: 11,
-                        name: 'test-enum'
+                        names: ['test-enum']
                     },
                     isThrow: true,
                     route: '/test-app/find-enum-items'
                 }),
                 {
-                    data: [{
-                        value: 1
-                    }]
+                    data: {
+                        'test-enum': [{
+                            value: 1
+                        }]
+                    }
                 }
             );
 
