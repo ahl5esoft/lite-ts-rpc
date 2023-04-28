@@ -5,12 +5,16 @@ import { RpcBase } from './base';
 export class RpcEnumLoadHandler extends EnumLoadHandlerBase {
     public constructor(
         private m_Rpc: RpcBase,
+        private m_SkipApp: string,
         private m_BuildItemFunc: (entry: EnumItem, enumName: string) => EnumItem = entry => entry,
     ) {
         super();
     }
 
     public async handle(ctx: EnumLoadHandlerContext) {
+        if (ctx.app == this.m_SkipApp)
+            return await this.next?.handle(ctx);
+
         const res = await this.m_Rpc.call<{ [app: string]: EnumItem[]; }>({
             body: {
                 areaNo: ctx.areaNo,

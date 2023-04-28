@@ -20,7 +20,7 @@ describe('src/enum-load-handler.ts', () => {
     describe('.handle(ctx: EnumLoadHandlerContext)', () => {
         it('ok', async () => {
             const mockRpc = new Mock<RpcBase>();
-            const self = new Self(mockRpc.actual, (entry, enumName) => {
+            const self = new Self(mockRpc.actual, '', (entry, enumName) => {
                 return TestEnumItem.create(entry, enumName);
             });
 
